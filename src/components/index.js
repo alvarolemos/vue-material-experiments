@@ -22,7 +22,6 @@ import MdList from './MdList'
 import MdMenu from './MdMenu'
 import MdRadio from './MdRadio'
 import MdRipple from './MdRipple'
-import MdSelect from './MdSelect'
 import MdSnackbar from './MdSnackbar'
 import MdSpeedDial from './MdSpeedDial'
 import MdSteppers from './MdSteppers'
@@ -57,7 +56,6 @@ export {
   MdMenu,
   MdRadio,
   MdRipple,
-  MdSelect,
   MdSnackbar,
   MdSpeedDial,
   MdSteppers,
