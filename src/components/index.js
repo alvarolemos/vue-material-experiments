@@ -1,5 +1,4 @@
 import MdApp from './MdApp'
-import MdDatepicker from './MdDatepicker'
 import MdAvatar from './MdAvatar'
 import MdBottomBar from './MdBottomBar'
 import MdButton from './MdButton'
@@ -7,6 +6,7 @@ import MdCard from './MdCard'
 import MdCheckbox from './MdCheckbox'
 import MdChips from './MdChips'
 import MdContent from './MdContent'
+import MdDatepicker from './MdDatepicker'
 import MdDialog from './MdDialog'
 import MdDialogAlert from './MdDialog/MdDialogAlert'
 import MdDialogConfirm from './MdDialog/MdDialogConfirm'
@@ -22,6 +22,7 @@ import MdList from './MdList'
 import MdMenu from './MdMenu'
 import MdRadio from './MdRadio'
 import MdRipple from './MdRipple'
+import MdSelect from './MdSelect'
 import MdSnackbar from './MdSnackbar'
 import MdSpeedDial from './MdSpeedDial'
 import MdSteppers from './MdSteppers'
@@ -32,7 +33,6 @@ import MdToolbar from './MdToolbar'
 import MdTooltip from './MdTooltip'
 
 export {
-  MdDatepicker,
   MdApp,
   MdAvatar,
   MdBottomBar,
@@ -41,6 +41,7 @@ export {
   MdCheckbox,
   MdChips,
   MdContent,
+  MdDatepicker,
   MdDialog,
   MdDialogAlert,
   MdDialogConfirm,
@@ -56,6 +57,7 @@ export {
   MdMenu,
   MdRadio,
   MdRipple,
+  MdSelect,
   MdSnackbar,
   MdSpeedDial,
   MdSteppers,
