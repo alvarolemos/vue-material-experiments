@@ -14,11 +14,17 @@
 <script>
   import MdComponent from 'core/MdComponent'
   import MdDropDownIcon from 'core/icons/MdDropDownIcon'
+  import MdMenu from 'components/MdMenu/MdMenu'
+  import MdMenuContent from 'components/MdMenu/MdMenuContent'
+  import MdInput from '../MdInput/MdInput'
   import MdFieldMixin from '../MdFieldMixin'
 
   export default {
     name: 'MdSelect',
     components: {
+      MdInput,
+      MdMenu,
+      MdMenuContent,
       MdDropDownIcon
     },
     mixins: [MdFieldMixin],

@@ -60,13 +60,15 @@ export default {
       this.setFieldValue()
     },
     setLabelFor () {
-      const label = this.$el.parentNode.querySelector('label')
+      if (this.$el.parentNode) {
+        const label = this.$el.parentNode.querySelector('label')
 
-      if (label) {
-        const forAttribute = label.getAttribute('for')
+        if (label) {
+          const forAttribute = label.getAttribute('for')
 
-        if (!forAttribute || forAttribute.indexOf('md-') >= 0) {
-          label.setAttribute('for', this.id)
+          if (!forAttribute || forAttribute.indexOf('md-') >= 0) {
+            label.setAttribute('for', this.id)
+          }
         }
       }
     },
