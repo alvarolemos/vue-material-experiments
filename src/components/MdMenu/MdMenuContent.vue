@@ -142,47 +142,47 @@
     border-radius: 2px;
     opacity: 0;
     transition: transform 0s .3s,
-                opacity .3s $md-transition-stand-timing;
+                opacity .4s $md-transition-default-timing;
     will-change: opacity, transform, top, left !important;
 
     &.md-menu-content-top-start {
       transform-origin: bottom left;
-      transform: translate3d(0, 8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, 8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-top-end {
       transform-origin: bottom right;
-      transform: translate3d(0, 8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, 8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-right-start {
       transform-origin: left top;
-      transform: translate3d(0, -8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, -8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-right-end {
       transform-origin: left bottom;
-      transform: translate3d(0, 8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, 8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-bottom-start {
       transform-origin: top left;
-      transform: translate3d(0, -8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, -8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-bottom-end {
       transform-origin: top right;
-      transform: translate3d(0, -8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, -8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-left-start {
       transform-origin: right top;
-      transform: translate3d(0, -8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, -8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-left-end {
       transform-origin: right bottom;
-      transform: translate3d(0, 8px, 0) scaleX(.9) scaleY(.95);
+      transform: translate3d(0, 8px, 0) scaleY(.54);
     }
 
     &.md-menu-content-medium {
@@ -200,8 +200,8 @@
     &.md-active {
       opacity: 1;
       transform: translate3d(0, 0, 0);
-      transition: transform .2s $md-transition-enter-timing,
-                  opacity .3s $md-transition-enter-timing;
+      transition: transform .15s $md-transition-stand-timing,
+                  opacity .3s $md-transition-stand-timing;
 
       .md-list {
         opacity: 1;
@@ -210,7 +210,7 @@
 
     .md-list {
       opacity: 0;
-      transition: opacity .4s $md-transition-default-timing;
+      transition: opacity .3s $md-transition-drop-timing;
       will-change: opacity;
       font-family: 'Roboto', sans-serif;
       text-transform: none;

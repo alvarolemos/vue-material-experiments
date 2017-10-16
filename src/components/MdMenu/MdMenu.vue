@@ -1,5 +1,5 @@
 <template>
-  <div class="md-menu">
+  <div class="md-menu" v-on="$listeners">
     <slot />
   </div>
 </template>
@@ -86,6 +86,12 @@
       },
       isActive (isActive) {
         this.$emit('update:mdActive', isActive)
+
+        if (!isActive) {
+          this.$emit('md-closed')
+        } else {
+          this.$emit('md-opened')
+        }
       }
     },
     methods: {

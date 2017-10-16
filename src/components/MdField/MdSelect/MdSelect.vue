@@ -1,7 +1,15 @@
 <template>
-  <md-menu :md-active.sync="showSelect" class="md-select">
-    <md-input class="md-select-value" v-model="content" readonly @click.prevent="openSelect" @keydown.down="openSelect" />
-    <md-drop-down-icon @click.native="openSelect" />
+  <md-menu class="md-select" :md-active.sync="showSelect" @md-opened="onOpen" @md-closed="onClosed">
+    <md-input
+      class="md-select-value"
+      v-model="content"
+      readonly
+      @focus.prevent="onFocus"
+      @click="openSelect"
+      @keydown.down="openSelect"
+      @keydown.enter="openSelect"
+      @keydown.space="openSelect"  />
+    <md-drop-down-icon ref="icon" @blur.native="removeHighlight" @click.native="openSelect" />
 
     <md-menu-content class="md-select-menu">
       <slot />
@@ -33,7 +41,29 @@
       showSelect: false
     }),
     methods: {
+      onOpen () {
+        window.setTimeout(() => {
+          this.MdField.focused = true
+        }, 10)
+      },
+      applyHighlight () {
+        this.MdField.focused = false
+        this.MdField.highlighted = true
+        this.$refs.icon.$el.focus()
+      },
+      onClosed () {
+        this.$refs.icon.$el.setAttribute('tabindex', 1)
+        this.applyHighlight()
+      },
+      onFocus () {
+        this.applyHighlight()
+      },
+      removeHighlight () {
+        this.MdField.highlighted = false
+        this.$refs.icon.$el.removeAttribute('tabindex')
+      },
       openSelect () {
+        console.log('test')
         this.showSelect = true
       }
     }
@@ -54,6 +84,7 @@
     .md-input,
     .md-icon {
       cursor: pointer;
+      outline: none;
     }
 
     select {
