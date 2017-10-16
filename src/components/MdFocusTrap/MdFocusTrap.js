@@ -4,13 +4,13 @@ export default {
   name: 'MdFocusTrap',
   abstract: true,
   methods: {
-    async setFocus () {
-      await this.$nextTick()
-
-      if (this.$el.tagName) {
-        this.$el.setAttribute('tabindex', '-1')
-        this.$el.focus()
-      }
+    setFocus () {
+      window.setTimeout(() => {
+        if (this.$el.tagName) {
+          this.$el.setAttribute('tabindex', '-1')
+          this.$el.focus()
+        }
+      }, 20)
     }
   },
   mounted () {

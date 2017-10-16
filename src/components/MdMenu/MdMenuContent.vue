@@ -136,7 +136,7 @@
     min-width: $md-menu-base-width * 2;
     max-width: $md-menu-base-width * 5;
     max-height: 50vh;
-    position: fixed !important;
+    position: absolute;
     z-index: 60;
     overflow: auto;
     border-radius: 2px;

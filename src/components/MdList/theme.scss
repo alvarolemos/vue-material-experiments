@@ -1,6 +1,7 @@
 .md-list {
   @include md-theme-component() {
     @include md-theme-property(background-color, background);
+    @include md-theme-property(color, text-primary, background);
 
     &.md-double-line .md-list-item-text :nth-child(2) {
       @include md-theme-property(color, text-accent, background);
