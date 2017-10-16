@@ -18,7 +18,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .md-select {
-
+  .md-field {
+    max-width: 300px;
+    display: inline-flex;
   }
 </style>

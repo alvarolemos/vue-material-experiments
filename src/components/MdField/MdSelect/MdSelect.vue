@@ -1,7 +1,7 @@
 <template>
-  <md-menu class="md-select">
-    <md-input class="md-select-value" readonly v-model="content" md-menu-trigger />
-    <!-- <md-file-icon @click.native="openPicker" /> -->
+  <md-menu :md-active.sync="showSelect" class="md-select">
+    <md-input class="md-select-value" v-model="content" readonly @click.prevent="openSelect" @keydown.down="openSelect" />
+    <md-drop-down-icon @click.native="openSelect" />
 
     <md-menu-content class="md-select-menu">
       <slot />
@@ -13,21 +13,42 @@
 
 <script>
   import MdComponent from 'core/MdComponent'
+  import MdDropDownIcon from 'core/icons/MdDropDownIcon'
   import MdFieldMixin from '../MdFieldMixin'
 
   export default {
     name: 'MdSelect',
+    components: {
+      MdDropDownIcon
+    },
     mixins: [MdFieldMixin],
-    inject: ['MdField']
+    inject: ['MdField'],
+    data: () => ({
+      showSelect: false
+    }),
+    methods: {
+      openSelect () {
+        this.showSelect = true
+      }
+    }
   }
 </script>
 
 <style lang="scss">
   @import "~components/MdAnimation/variables";
 
-  .md-select {
+  .md-menu.md-select {
     display: flex;
     flex: 1;
+
+    .md-input {
+      flex: 1;
+    }
+
+    .md-input,
+    .md-icon {
+      cursor: pointer;
+    }
 
     select {
       width: 1px;
@@ -38,10 +59,6 @@
       position: absolute;
       clip: rect(0 0 0 0);
       border: 0;
-    }
-
-    .md-icon {
-      cursor: pointer;
     }
   }
 

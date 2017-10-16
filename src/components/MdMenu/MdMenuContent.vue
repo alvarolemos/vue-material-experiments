@@ -1,13 +1,16 @@
 <template>
   <md-popover
-    class="md-menu-content"
+    class="md-menu-content md-scrollbar"
     :class="[menuClasses, $mdActiveTheme]"
-    md-tag="md-list"
     md-transition-name="md-menu-content"
     md-follow-el="original"
     :md-settings="popperSettings"
     :md-if="shouldRender">
-    <slot />
+    <md-focus-trap>
+      <md-list @keydown.esc="onEsc">
+        <slot />
+      </md-list>
+    </md-focus-trap>
   </md-popover>
 </template>
 
@@ -16,12 +19,14 @@
   import MdPropValidator from 'core/utils/MdPropValidator'
   import MdObserveEvent from 'core/utils/MdObserveEvent'
   import MdPopover from 'components/MdPopover/MdPopover'
+  import MdFocusTrap from 'components/MdFocusTrap/MdFocusTrap'
   import MdList from 'components/MdList/MdList'
 
   export default new MdComponent({
     name: 'MdMenuContent',
     components: {
       MdPopover,
+      MdFocusTrap,
       MdList
     },
     inject: ['MdMenu'],
@@ -83,6 +88,9 @@
       }
     },
     methods: {
+      onEsc () {
+        this.MdMenu.active = false
+      },
       getOffsets () {
         return {
           offsetX: this.MdMenu.offsetX || 0,
@@ -123,12 +131,12 @@
 
   $md-menu-base-width: 56px;
 
-  .md-list.md-menu-content {
+  .md-menu-content {
     @include md-elevation(8);
     min-width: $md-menu-base-width * 2;
     max-width: $md-menu-base-width * 5;
     max-height: 50vh;
-    position: fixed;
+    position: fixed !important;
     z-index: 60;
     overflow: auto;
     border-radius: 2px;
@@ -136,19 +144,6 @@
     transition: transform 0s .3s,
                 opacity .3s $md-transition-stand-timing;
     will-change: opacity, transform, top, left !important;
-    font-family: 'Roboto', sans-serif;
-    text-transform: none;
-    white-space: nowrap;
-
-    @include md-layout-small {
-      font-size: 14px;
-    }
-
-    > * {
-      opacity: 0;
-      transition: opacity .4s $md-transition-default-timing;
-      will-change: opacity;
-    }
 
     &.md-menu-content-top-start {
       transform-origin: bottom left;
@@ -208,8 +203,21 @@
       transition: transform .2s $md-transition-enter-timing,
                   opacity .3s $md-transition-enter-timing;
 
-      > * {
+      .md-list {
         opacity: 1;
+      }
+    }
+
+    .md-list {
+      opacity: 0;
+      transition: opacity .4s $md-transition-default-timing;
+      will-change: opacity;
+      font-family: 'Roboto', sans-serif;
+      text-transform: none;
+      white-space: nowrap;
+
+      @include md-layout-small {
+        font-size: 14px;
       }
     }
   }

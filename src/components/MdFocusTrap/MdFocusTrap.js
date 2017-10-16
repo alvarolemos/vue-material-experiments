@@ -3,11 +3,18 @@ import Vue from 'vue'
 export default {
   name: 'MdFocusTrap',
   abstract: true,
-  async mounted () {
-    await this.$nextTick()
+  methods: {
+    async setFocus () {
+      await this.$nextTick()
 
-    this.$el.setAttribute('tabindex', '-1')
-    this.$el.focus()
+      if (this.$el.tagName) {
+        this.$el.setAttribute('tabindex', '-1')
+        this.$el.focus()
+      }
+    }
+  },
+  mounted () {
+    this.setFocus()
   },
   render () {
     try {
