@@ -1,5 +1,5 @@
 <template>
-  <md-menu class="md-select" :md-active.sync="showSelect" @md-opened="onOpen" @md-closed="onClosed">
+  <md-menu class="md-select" :md-active.sync="showSelect" :md-offset-x="offset.x" :md-offset-y="offset.y" @md-opened="onOpen" @md-closed="onClosed">
     <md-input
       class="md-select-value"
       v-model="content"
@@ -11,7 +11,7 @@
       @keydown.space="openSelect"  />
     <md-drop-down-icon ref="icon" @blur.native="removeHighlight" @click.native="openSelect" />
 
-    <md-menu-content class="md-select-menu">
+    <md-menu-content class="md-select-menu" :style="menuStyles" :id="uniqueId">
       <slot />
     </md-menu-content>
 
@@ -20,12 +20,18 @@
 </template>
 
 <script>
+  import MdUuid from 'core/utils/MdUuid'
   import MdComponent from 'core/MdComponent'
   import MdDropDownIcon from 'core/icons/MdDropDownIcon'
   import MdMenu from 'components/MdMenu/MdMenu'
   import MdMenuContent from 'components/MdMenu/MdMenuContent'
   import MdInput from '../MdInput/MdInput'
   import MdFieldMixin from '../MdFieldMixin'
+
+  const defaultOffset = {
+    x: -16,
+    y: -48
+  }
 
   export default {
     name: 'MdSelect',
@@ -38,10 +44,29 @@
     mixins: [MdFieldMixin],
     inject: ['MdField'],
     data: () => ({
+      uniqueId: 'md-select-menu-' + MdUuid(),
+      menuStyles: {},
+      offset: {
+        x: defaultOffset.x,
+        y: 0
+      },
       showSelect: false
     }),
     methods: {
+      async setOffsets () {
+        await this.$nextTick()
+
+        const target = document.getElementById(this.uniqueId).querySelector('.md-selected')
+
+        target.scrollIntoView()
+
+        this.offset.y = defaultOffset.y - target.offsetTop + 7
+        this.menuStyles = {
+          'transform-origin': `0 ${Math.abs(this.offset.y)}px`
+        }
+      },
       onOpen () {
+        this.setOffsets()
         window.setTimeout(() => {
           this.MdField.focused = true
         }, 10)
@@ -63,7 +88,6 @@
         this.$refs.icon.$el.removeAttribute('tabindex')
       },
       openSelect () {
-        console.log('test')
         this.showSelect = true
       }
     }
@@ -99,7 +123,15 @@
     }
   }
 
-  .md-select-menu {
+  .md-menu-content.md-select-menu {
     width: 100%;
+
+    &.md-menu-content-bottom-start {
+      transform: translate3d(0, -8px, 0) scaleY(.3);
+    }
+
+    &.md-active {
+      transform: translate3d(0, 0, 0);
+    }
   }
 </style>

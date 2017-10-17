@@ -46,8 +46,8 @@
       },
       mdSettings (settings) {
         if (this.popperInstance) {
-          this.popperInstance.options = deepmerge(this.popperInstance.options, settings)
-          this.popperInstance.scheduleUpdate()
+          this.killPopper()
+          this.createPopper()
         }
       }
     },
@@ -81,13 +81,15 @@
       async bindPopper () {
         await this.$nextTick()
 
+        if (this.originalParentEl) {
+          this.createPopper()
+        }
+      },
+      createPopper () {
+        const options = deepmerge(this.getPopperOptions(), this.mdSettings)
         const el = this.$children[0].$el
 
-        if (this.originalParentEl) {
-          const options = deepmerge(this.getPopperOptions(), this.mdSettings)
-
-          this.popperInstance = new Popper(this.originalParentEl, el, options)
-        }
+        this.popperInstance = new Popper(this.originalParentEl, el, options)
       }
     },
     beforeDestroy () {

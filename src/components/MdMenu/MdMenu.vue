@@ -12,6 +12,7 @@
     props: {
       mdActive: Boolean,
       mdAlignTrigger: Boolean,
+      mdAlignTarget: Boolean,
       mdOffsetX: Number,
       mdOffsetY: Number,
       mdDirection: {

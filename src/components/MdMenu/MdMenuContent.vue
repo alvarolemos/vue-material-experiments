@@ -2,12 +2,10 @@
   <md-popover
     class="md-menu-content md-scrollbar"
     :class="[menuClasses, $mdActiveTheme]"
-    md-transition-name="md-menu-content"
-    md-follow-el="original"
     :md-settings="popperSettings"
     :md-if="shouldRender">
     <md-focus-trap>
-      <md-list @keydown.esc="onEsc">
+      <md-list v-bind="$attrs" @keydown.esc="onEsc">
         <slot />
       </md-list>
     </md-focus-trap>
@@ -52,7 +50,7 @@
           let { offsetX, offsetY }= this.getOffsets()
 
           if (!this.hasCustomOffsets()) {
-            offsetY = -this.targetEl.offsetHeight - 12
+            offsetY = -this.targetEl.offsetHeight - 11
 
             if (direction.includes('start')) {
               offsetX = -8
@@ -100,7 +98,7 @@
       hasCustomOffsets () {
         const { offsetX, offsetY, alignTrigger } = this.MdMenu
 
-        return alignTrigger || offsetX || offsetY
+        return Boolean(alignTrigger || offsetX || offsetY)
       },
       createClickEventObserver () {
         this.MdMenu.eventObserver = new MdObserveEvent(document.body, 'click', $event => {
@@ -147,42 +145,42 @@
 
     &.md-menu-content-top-start {
       transform-origin: bottom left;
-      transform: translate3d(0, 8px, 0) scaleY(.54);
+      transform: translate3d(0, 8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-top-end {
       transform-origin: bottom right;
-      transform: translate3d(0, 8px, 0) scaleY(.54);
+      transform: translate3d(0, 8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-right-start {
       transform-origin: left top;
-      transform: translate3d(0, -8px, 0) scaleY(.54);
+      transform: translate3d(0, -8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-right-end {
       transform-origin: left bottom;
-      transform: translate3d(0, 8px, 0) scaleY(.54);
+      transform: translate3d(0, 8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-bottom-start {
       transform-origin: top left;
-      transform: translate3d(0, -8px, 0) scaleY(.54);
+      transform: translate3d(0, -8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-bottom-end {
       transform-origin: top right;
-      transform: translate3d(0, -8px, 0) scaleY(.54);
+      transform: translate3d(0, -8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-left-start {
       transform-origin: right top;
-      transform: translate3d(0, -8px, 0) scaleY(.54);
+      transform: translate3d(0, -8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-left-end {
       transform-origin: right bottom;
-      transform: translate3d(0, 8px, 0) scaleY(.54);
+      transform: translate3d(0, 8px, 0) scaleY(.5);
     }
 
     &.md-menu-content-medium {
@@ -200,7 +198,7 @@
     &.md-active {
       opacity: 1;
       transform: translate3d(0, 0, 0);
-      transition: transform .15s $md-transition-stand-timing,
+      transition: transform .2s $md-transition-stand-timing,
                   opacity .3s $md-transition-stand-timing;
 
       .md-list {

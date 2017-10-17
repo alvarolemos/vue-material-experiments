@@ -19,8 +19,11 @@
       }
     }
 
+    .md-selected,
     .router-link-exact-active {
-      @include md-theme-property(color, primary, background);
+      .md-list-item-content {
+        @include md-theme-property(color, primary, background);
+      }
     }
 
     .md-list-item-expand.md-active {
