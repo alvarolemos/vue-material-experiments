@@ -20,6 +20,7 @@
 </template>
 
 <script>
+  import raf from 'raf'
   import MdUuid from 'core/utils/MdUuid'
   import MdComponent from 'core/MdComponent'
   import MdDropDownIcon from 'core/icons/MdDropDownIcon'
@@ -56,13 +57,19 @@
       async setOffsets () {
         await this.$nextTick()
 
-        const target = document.getElementById(this.uniqueId).querySelector('.md-selected')
+        const menu = document.getElementById(this.uniqueId)
+        const selected = menu.querySelector('.md-selected')
 
-        target.scrollIntoView()
+        if (selected) {
+          selected.scrollIntoView()
 
-        this.offset.y = defaultOffset.y - target.offsetTop + 7
-        this.menuStyles = {
-          'transform-origin': `0 ${Math.abs(this.offset.y)}px`
+          this.offset.y = defaultOffset.y - selected.offsetTop + menu.scrollTop + 7
+          this.menuStyles = {
+            'transform-origin': `0 ${Math.abs(this.offset.y)}px`
+          }
+        } else {
+          this.offset.y = defaultOffset.y
+          this.menuStyles = {}
         }
       },
       onOpen () {
