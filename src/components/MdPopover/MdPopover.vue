@@ -23,7 +23,8 @@
       popperInstance: null,
       originalParentEl: null,
       shouldRender: false,
-      shouldActivate: false
+      shouldActivate: false,
+      isHidden: true
     }),
     computed: {
       popoverClasses () {
@@ -35,13 +36,16 @@
       }
     },
     watch: {
-      mdIf (shouldRender) {
-        this.shouldRender = shouldRender
+      mdIf: {
+        immediate: true,
+        handler (shouldRender) {
+          this.shouldRender = shouldRender
 
-        if (shouldRender) {
-          this.bindPopper()
-        } else {
-          this.shouldActivate = false
+          if (shouldRender) {
+            this.bindPopper()
+          } else {
+            this.shouldActivate = false
+          }
         }
       },
       mdSettings (settings) {
@@ -85,11 +89,13 @@
           this.createPopper()
         }
       },
-      createPopper () {
+      async createPopper () {
         const options = deepmerge(this.getPopperOptions(), this.mdSettings)
         const el = this.$children[0].$el
 
-        this.popperInstance = new Popper(this.originalParentEl, el, options)
+        if (el.constructor.name.toLowerCase() !== 'comment') {
+          this.popperInstance = new Popper(this.originalParentEl, el, options)
+        }
       }
     },
     beforeDestroy () {

@@ -67,8 +67,11 @@
       }
     },
     watch: {
-      mdActive (isActive) {
-        this.MdMenu.active = isActive
+      mdActive: {
+        immediate: true,
+        handler (isActive) {
+          this.MdMenu.active = isActive
+        }
       },
       mdDirection (direction) {
         this.MdMenu.direction = direction

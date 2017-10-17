@@ -5,7 +5,7 @@
     :md-settings="popperSettings"
     :md-if="shouldRender">
     <md-focus-trap>
-      <md-list v-bind="$attrs" @keydown.esc="onEsc">
+      <md-list :class="mdListClass" v-bind="$attrs" @keydown.esc="onEsc">
         <slot />
       </md-list>
     </md-focus-trap>
@@ -26,6 +26,9 @@
       MdPopover,
       MdFocusTrap,
       MdList
+    },
+    props: {
+      mdListClass: [String, Boolean]
     },
     inject: ['MdMenu'],
     data: () => ({

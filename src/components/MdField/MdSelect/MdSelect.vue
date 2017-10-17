@@ -1,8 +1,14 @@
 <template>
-  <md-menu class="md-select" :md-active.sync="showSelect" :md-offset-x="offset.x" :md-offset-y="offset.y" @md-opened="onOpen" @md-closed="onClosed">
+  <md-menu
+    class="md-select"
+    :md-active.sync="showSelect"
+    :md-offset-x="offset.x"
+    :md-offset-y="offset.y"
+    @md-opened="onOpen"
+    @md-closed="onClosed">
     <md-input
       class="md-select-value"
-      v-model="content"
+      v-model="MdSelect.label"
       readonly
       @focus.prevent="onFocus"
       @click="openSelect"
@@ -11,10 +17,11 @@
       @keydown.space="openSelect"  />
     <md-drop-down-icon ref="icon" @blur.native="removeHighlight" @click.native="openSelect" />
 
-    <md-menu-content class="md-select-menu" :style="menuStyles" :id="uniqueId">
+    <md-menu-content class="md-select-menu" :md-list-class="mdDense && 'md-dense'" :style="menuStyles" :id="uniqueId">
       <slot />
     </md-menu-content>
 
+    <md-input class="md-input-fake" v-model="content" readonly />
     <select readonly v-model="content" :required="required"></select>
   </md-menu>
 </template>
@@ -43,6 +50,9 @@
       MdDropDownIcon
     },
     mixins: [MdFieldMixin],
+    props: {
+      mdDense: Boolean
+    },
     inject: ['MdField'],
     data: () => ({
       uniqueId: 'md-select-menu-' + MdUuid(),
@@ -51,25 +61,45 @@
         x: defaultOffset.x,
         y: 0
       },
-      showSelect: false
+      showSelect: true,
+      MdSelect: {
+        items: {},
+        label: null
+      }
     }),
+    provide () {
+      const MdSelect = this.MdSelect
+
+      MdSelect.setValue = this.setValue
+      MdSelect.setContent = this.setContent
+
+      return { MdSelect }
+    },
+    watch: {
+      value () {
+        this.setContentByValue()
+      }
+    },
     methods: {
       async setOffsets () {
         await this.$nextTick()
 
         const menu = document.getElementById(this.uniqueId)
-        const selected = menu.querySelector('.md-selected')
 
-        if (selected) {
-          selected.scrollIntoView()
+        if (menu) {
+          const selected = menu.querySelector('.md-selected')
 
-          this.offset.y = defaultOffset.y - selected.offsetTop + menu.scrollTop + 7
-          this.menuStyles = {
-            'transform-origin': `0 ${Math.abs(this.offset.y)}px`
+          if (selected) {
+            selected.scrollIntoView()
+
+            this.offset.y = defaultOffset.y - selected.offsetTop + menu.scrollTop + 7
+            this.menuStyles = {
+              'transform-origin': `0 ${Math.abs(this.offset.y)}px`
+            }
+          } else {
+            this.offset.y = defaultOffset.y + 1
+            this.menuStyles = {}
           }
-        } else {
-          this.offset.y = defaultOffset.y
-          this.menuStyles = {}
         }
       },
       onOpen () {
@@ -96,7 +126,29 @@
       },
       openSelect () {
         this.showSelect = true
+      },
+      setValue (newValue) {
+        this.content = newValue
+        this.setFieldValue()
+      },
+      setContent (newLabel) {
+        this.MdSelect.label = newLabel.trim()
+      },
+      setContentByValue () {
+        const textContent = this.MdSelect.items[this.value]
+
+        if (textContent) {
+          this.setContent(this.MdSelect.items[this.value])
+        } else {
+          this.setContent('')
+        }
       }
+    },
+    async mounted () {
+      await this.$nextTick()
+
+      this.setContentByValue()
+      this.showSelect = false
     }
   }
 </script>
@@ -118,7 +170,8 @@
       outline: none;
     }
 
-    select {
+    select,
+    .md-input-fake {
       width: 1px;
       height: 1px;
       margin: -1px;
@@ -139,6 +192,10 @@
 
     &.md-active {
       transform: translate3d(0, 0, 0);
+    }
+
+    .md-dense .md-ripple.md-list-item-content {
+      font-size: 14px;
     }
   }
 </style>
