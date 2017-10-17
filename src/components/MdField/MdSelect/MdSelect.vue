@@ -10,6 +10,7 @@
       class="md-select-value"
       v-model="MdSelect.label"
       readonly
+      :disabled="disabled"
       @focus.prevent="onFocus"
       @click="openSelect"
       @keydown.down="openSelect"
@@ -81,6 +82,16 @@
       }
     },
     methods: {
+      elHasScroll (el) {
+        return el.scrollHeight > el.offsetHeight
+      },
+      scrollToSelectedOption (el, menu) {
+        const top = el.offsetTop
+        const elHeight = el.offsetHeight
+        const menuHeight = menu.offsetHeight
+
+        menu.scrollTop = top - ((menuHeight - elHeight) / 2)
+      },
       async setOffsets () {
         await this.$nextTick()
 
@@ -90,8 +101,7 @@
           const selected = menu.querySelector('.md-selected')
 
           if (selected) {
-            selected.scrollIntoView()
-
+            this.scrollToSelectedOption(selected, menu)
             this.offset.y = defaultOffset.y - selected.offsetTop + menu.scrollTop + 7
             this.menuStyles = {
               'transform-origin': `0 ${Math.abs(this.offset.y)}px`
@@ -144,9 +154,7 @@
         }
       }
     },
-    async mounted () {
-      await this.$nextTick()
-
+    mounted () {
       this.setContentByValue()
       this.showSelect = false
     }

@@ -24,7 +24,8 @@
       originalParentEl: null,
       shouldRender: false,
       shouldActivate: false,
-      isHidden: true
+      isHidden: true,
+      didMount: false
     }),
     computed: {
       popoverClasses () {
@@ -61,7 +62,8 @@
           placement: 'bottom',
           modifiers: {
             preventOverflow: {
-              padding: 16
+              boundariesElement: 'viewport',
+              padding: 8
             },
             computeStyle: {
               gpuAcceleration: false
@@ -124,6 +126,7 @@
   .md-popover {
     &.md-rendering {
       opacity: 0;
+      transition: none !important;
     }
   }
 </style>

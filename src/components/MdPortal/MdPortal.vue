@@ -56,10 +56,17 @@
         if (oldTarget) {
           this.$forceUpdate()
         }
+      },
+      mdIf () {
+        this.noTransition = false
       }
     },
     methods: {
       getTransitionDuration () {
+        if (this.noTransition) {
+          return 0
+        }
+
         const duration = window.getComputedStyle(this.$el).transitionDuration
         const num = parseFloat(duration, 10)
         let unit = duration.match(/m?s/)
@@ -120,6 +127,10 @@
       this.changeParentEl()
     },
     mounted () {
+      if (this.mdIf) {
+        this.noTransition = true
+      }
+
       this.$emit('md-original-parent', this.originalParentEl)
     },
     async beforeDestroy () {
@@ -140,7 +151,12 @@
 
       if (this.shouldRender) {
         portalElement = createElement(this.mdTag, {
-          class: this.shouldRender,
+          class: [
+            this.shouldRender,
+            {
+              'md-no-transition': this.noTransition
+            }
+          ],
           style: this.shouldRender,
           on: this.$listeners
         }, [this.$slots.default])
@@ -155,3 +171,9 @@
     }
   }
 </script>
+
+<style lang="scss">
+  .md-no-transition {
+    transition: none !important;
+  }
+</style>

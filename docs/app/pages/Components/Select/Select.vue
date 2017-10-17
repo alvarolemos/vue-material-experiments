@@ -1,9 +1,18 @@
+<example src="./examples/BasicSelect.vue" />
+<example src="./examples/DenseSelect.vue" />
 <example src="./examples/Example.vue" />
 
 <template>
   <page-container centered :title="$t('pages.select.title')">
     <div class="page-container-section">
       <p>Lorem ipsum</p>
+    </div>
+
+    <div class="page-container-section">
+      <h2>Select</h2>
+
+      <code-example title="Basic Selects" :component="examples['basic-select']" />
+      <code-example title="Dense" :component="examples['dense-select']" />
     </div>
 
     <div class="page-container-section">
