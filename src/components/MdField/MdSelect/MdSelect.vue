@@ -1,6 +1,7 @@
 <template>
   <md-menu
     class="md-select"
+    :md-close-on-select="false"
     :md-active.sync="showSelect"
     :md-offset-x="offset.x"
     :md-offset-y="offset.y"
@@ -52,7 +53,8 @@
     },
     mixins: [MdFieldMixin],
     props: {
-      mdDense: Boolean
+      mdDense: Boolean,
+      multiple: Boolean
     },
     inject: ['MdField'],
     data: () => ({
@@ -65,7 +67,8 @@
       showSelect: true,
       MdSelect: {
         items: {},
-        label: null
+        label: null,
+        multiple: false
       }
     }),
     provide () {
@@ -73,12 +76,20 @@
 
       MdSelect.setValue = this.setValue
       MdSelect.setContent = this.setContent
+      MdSelect.setMultipleValue = this.setMultipleValue
+      MdSelect.setMultipleContent = this.setMultipleContent
 
       return { MdSelect }
     },
     watch: {
       value () {
         this.setContentByValue()
+      },
+      multiple: {
+        immediate: true,
+        handler (isMultiple) {
+          this.MdSelect.multiple = isMultiple
+        }
       }
     },
     methods: {
@@ -141,8 +152,14 @@
         this.content = newValue
         this.setFieldValue()
       },
+      setMultipleValue (newValue) {
+
+      },
       setContent (newLabel) {
         this.MdSelect.label = newLabel.trim()
+      },
+      setMultipleContent (newLabel) {
+
       },
       setContentByValue () {
         const textContent = this.MdSelect.items[this.value]

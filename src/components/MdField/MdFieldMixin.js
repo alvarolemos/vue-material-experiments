@@ -1,6 +1,6 @@
 export default {
   props: {
-    value: [String, Number, Date],
+    value: [String, Number, Date, Array],
     placeholder: String,
     maxlength: [String, Number],
     readonly: Boolean,

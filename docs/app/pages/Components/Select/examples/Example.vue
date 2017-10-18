@@ -54,7 +54,7 @@
       <div class="md-flex">
         <md-field>
           <label for="food">Food</label>
-          <md-select v-model="food" name="food" id="food" md-dense>
+          <md-select v-model="food" name="food" id="food">
             <md-optgroup label="Fruits">
               <md-option value="apples">Apples</md-option>
               <md-option value="bananas">Bananas</md-option>

@@ -1,6 +1,10 @@
 <template>
   <md-menu-item :class="optionClasses" :disabled="isDisabled" @click="setSelection">
-    <slot />
+    <md-checkbox class="md-primary" v-model="isChecked" v-if="MdSelect.multiple" />
+
+    <span class="md-list-item-text">
+      <slot />
+    </span>
   </md-menu-item>
 </template>
 
@@ -21,7 +25,8 @@
     },
     data: () => ({
       uniqueId: 'md-option-' + MdUuid(),
-      isSelected: false
+      isSelected: false,
+      isChecked: false
     }),
     computed: {
       isDisabled () {
@@ -35,7 +40,7 @@
       },
       optionClasses () {
         return {
-          'md-selected': this.isSelected
+          'md-selected': this.isSelected || this.isChecked
         }
       }
     },
@@ -48,10 +53,22 @@
       setIsSelected () {
         this.isSelected = this.inputLabel === this.$el.textContent.trim()
       },
+      setSingleSelection () {
+        this.MdSelect.setValue(this.value)
+        this.MdSelect.setContent(this.$el.textContent)
+      },
+      setMultipleSelection () {
+        this.isChecked = !this.isChecked
+        this.MdSelect.setMultipleValue(this.value)
+        this.MdSelect.setMultipleContent(this.$el.textContent)
+      },
       setSelection () {
         if (!this.disabled) {
-          this.MdSelect.setValue(this.value)
-          this.MdSelect.setContent(this.$el.textContent)
+          if (this.MdSelect.multiple) {
+            this.setMultipleSelection()
+          } else {
+            this.setSingleSelection()
+          }
         }
       },
       setItem () {

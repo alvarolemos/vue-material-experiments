@@ -36,6 +36,8 @@
             }
           }
         })
+      } else {
+        this.listeners = this.$listeners
       }
     }
   }

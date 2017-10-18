@@ -1,6 +1,7 @@
 <example src="./examples/BasicSelect.vue" />
 <example src="./examples/DenseSelect.vue" />
 <example src="./examples/OptgroupDisabled.vue" />
+<example src="./examples/MultipleSelect.vue" />
 <example src="./examples/Example.vue" />
 
 <template>
@@ -15,6 +16,7 @@
       <code-example title="Basic Selects" :component="examples['basic-select']" />
       <code-example title="Dense" :component="examples['dense-select']" />
       <code-example title="Groups and disabled options" :component="examples['optgroup-disabled']" />
+      <code-example title="Multiple" :component="examples['multiple-select']" />
     </div>
 
     <div class="page-container-section">
