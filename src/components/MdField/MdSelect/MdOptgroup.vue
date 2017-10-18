@@ -9,7 +9,15 @@
   export default {
     name: 'MdOptgroup',
     props: {
-      label: String
+      label: String,
+      disabled: Boolean
+    },
+    provide () {
+      return {
+        MdOptgroup: {
+          disabled: this.disabled
+        }
+      }
     }
   }
 </script>

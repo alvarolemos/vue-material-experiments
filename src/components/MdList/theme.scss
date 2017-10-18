@@ -14,9 +14,13 @@
     .md-list-item-container {
       @include md-theme-property(color, text-primary, background);
 
-      &:not(.md-list-item-default):hover {
+      &:not(.md-list-item-default):not([disabled]):hover {
         @include md-theme-property(background-color, divider, background);
       }
+    }
+
+    [disabled] {
+      @include md-theme-property(color, disabled, background);
     }
 
     .md-selected,

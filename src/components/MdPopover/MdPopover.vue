@@ -63,7 +63,7 @@
           modifiers: {
             preventOverflow: {
               boundariesElement: 'viewport',
-              padding: 8
+              padding: 16
             },
             computeStyle: {
               gpuAcceleration: false

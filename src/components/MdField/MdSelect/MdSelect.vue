@@ -38,7 +38,7 @@
   import MdFieldMixin from '../MdFieldMixin'
 
   const defaultOffset = {
-    x: -16,
+    x: -15,
     y: -48
   }
 

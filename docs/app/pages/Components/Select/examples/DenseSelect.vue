@@ -51,8 +51,6 @@
         </md-field>
       </div>
     </div>
-
-    <md-button class="md-primary md-raised" @click="movie = 'pulp-fiction'">Set Pulp Fiction</md-button>
   </div>
 </template>
 

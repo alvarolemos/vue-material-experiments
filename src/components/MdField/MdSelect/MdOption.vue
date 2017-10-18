@@ -1,5 +1,5 @@
 <template>
-  <md-menu-item :class="optionClasses" @click="setSelection">
+  <md-menu-item :class="optionClasses" :disabled="isDisabled" @click="setSelection">
     <slot />
   </md-menu-item>
 </template>
@@ -10,14 +10,23 @@
   export default {
     name: 'MdOption',
     props: {
-      value: [String, Number, Boolean]
+      value: [String, Number, Boolean],
+      disabled: Boolean
     },
-    inject: ['MdSelect'],
+    inject: {
+      MdSelect: {},
+      MdOptgroup: {
+        default: {}
+      }
+    },
     data: () => ({
       uniqueId: 'md-option-' + MdUuid(),
       isSelected: false
     }),
     computed: {
+      isDisabled () {
+        return this.MdOptgroup.disabled || this.disabled
+      },
       key () {
         return this.value || this.uniqueId
       },
@@ -40,8 +49,10 @@
         this.isSelected = this.inputLabel === this.$el.textContent.trim()
       },
       setSelection () {
-        this.MdSelect.setValue(this.value)
-        this.MdSelect.setContent(this.$el.textContent)
+        if (!this.disabled) {
+          this.MdSelect.setValue(this.value)
+          this.MdSelect.setContent(this.$el.textContent)
+        }
       },
       setItem () {
         this.$set(this.MdSelect.items, this.key, this.$el.textContent)

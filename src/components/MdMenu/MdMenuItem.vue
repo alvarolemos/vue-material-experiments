@@ -1,5 +1,5 @@
 <template>
-  <md-list-item class="md-menu-item" v-on="listeners" v-bind="$attrs">
+  <md-list-item class="md-menu-item" :disabled="disabled" v-on="listeners" v-bind="$attrs">
     <slot />
   </md-list-item>
 </template>
@@ -10,6 +10,9 @@
 
   export default {
     name: 'MdMenuItem',
+    props: {
+      disabled: Boolean
+    },
     inject: ['MdMenu'],
     data: () => ({
       listeners: {}
@@ -21,12 +24,14 @@
 
         listenerNames.forEach(listener => {
           if (MdInteractionEvents.includes(listener)) {
-            this.listeners[listener] = ($event) => {
-              this.$listeners[listener]($event)
-              this.MdMenu.active = false
+            this.listeners[listener] = $event => {
+              if (!this.disabled) {
+                this.$listeners[listener]($event)
+                this.MdMenu.active = false
 
-              if (this.MdMenu.eventObserver) {
-                this.MdMenu.eventObserver.destroy()
+                if (this.MdMenu.eventObserver) {
+                  this.MdMenu.eventObserver.destroy()
+                }
               }
             }
           }
