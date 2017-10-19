@@ -24,7 +24,7 @@
   export default {
     name: 'Example',
     data: () => ({
-      movies: ['godfather', 'godfather-ii', 'godfather-iii']
+      movies: []
     })
   }
 </script>

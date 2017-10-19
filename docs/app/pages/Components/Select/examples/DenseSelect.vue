@@ -3,8 +3,8 @@
     <div class="md-layout-row md-gutter">
       <div class="md-flex">
         <md-field>
-          <label for="movie">Movie</label>
-          <md-select v-model="movie" name="movie" id="movie" md-dense>
+          <label for="movies">Movies</label>
+          <md-select v-model="movies" name="movies" id="movies" md-dense multiple>
             <md-option value="fight-club">Fight Club</md-option>
             <md-option value="godfather">Godfather</md-option>
             <md-option value="godfather-ii">Godfather II</md-option>
@@ -58,7 +58,7 @@
   export default {
     name: 'Example',
     data: () => ({
-      movie: 'godfather',
+      movies: [],
       country: null,
       font: null
     })

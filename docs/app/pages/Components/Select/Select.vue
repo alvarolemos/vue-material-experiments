@@ -14,10 +14,10 @@
       <h2>Select</h2>
 
       <code-example title="Basic Selects" :component="examples['basic-select']" />
-      <code-example title="Dense" :component="examples['dense-select']" />
+      <code-example title="Disabled" :component="examples['disabled-select']" />
       <code-example title="Groups and disabled options" :component="examples['optgroup-disabled']" />
       <code-example title="Multiple" :component="examples['multiple-select']" />
-      <code-example title="Disabled" :component="examples['disabled-select']" />
+      <code-example title="Dense" :component="examples['dense-select']" />
 
       <api-item title="API - md-select">
         <p>This component do not have any extra option.</p>
