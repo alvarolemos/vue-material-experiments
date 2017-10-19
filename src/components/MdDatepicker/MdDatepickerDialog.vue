@@ -86,7 +86,7 @@
       </md-dialog-actions>
     </div>
 
-    <md-overlay class="md-datepicker-overlay" md-fixed :md-visible="showDialog" @click="onCancel" />
+    <md-overlay class="md-datepicker-overlay" md-fixed :md-active="showDialog" @click="onCancel" />
   </md-popover>
 </template>
 

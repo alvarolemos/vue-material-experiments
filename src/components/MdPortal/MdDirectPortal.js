@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 export default {
   name: 'MdDirectPortal',
-  abstract: true,
   props: {
+    mdAttachToParent: Boolean,
     mdTarget: {
       type: window.HTMLElement,
       validator (value) {
@@ -99,7 +99,11 @@ export default {
     }
   },
   mounted () {
-    this.changeParentEl(this.mdTarget || document.body)
+    if (this.mdAttachToParent && this.$el.parentNode.parentNode) {
+      this.changeParentEl(this.$el.parentNode.parentNode)
+    } else {
+      this.changeParentEl(this.mdTarget || document.body)
+    }
   },
   async beforeDestroy () {
     if (this.$el.classList) {

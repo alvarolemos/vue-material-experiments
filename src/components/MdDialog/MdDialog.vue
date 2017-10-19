@@ -8,7 +8,7 @@
           </div>
         </md-focus-trap>
 
-        <md-overlay :class="mdBackdropClass" md-fixed :md-visible="mdActive" @click="onClick" v-if="mdBackdrop" />
+        <md-overlay :class="mdBackdropClass" md-fixed :md-active="mdActive" @click="onClick" v-if="mdBackdrop" />
       </div>
     </transition>
   </md-direct-portal>

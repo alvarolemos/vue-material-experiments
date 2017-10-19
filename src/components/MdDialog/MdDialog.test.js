@@ -2,8 +2,10 @@ import mountTemplate from 'test/utils/mountTemplate'
 import MdDialog from './MdDialog.vue'
 
 test('should render the dialog', async () => {
-  const template = '<md-dialog></md-dialog>'
-  const wrapper = await mountTemplate(MdDialog, template)
+  const template = '<md-dialog md-active></md-dialog>'
+  const wrapper = await mountTemplate(MdDialog, template, {
+    attachToDocument: true
+  })
 
-  expect(wrapper.hasClass('md-dialog')).toBe(true)
+  expect(Boolean(wrapper.find('.md-dialog'))).toBe(true)
 })
