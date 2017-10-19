@@ -17,6 +17,33 @@ export default {
       }
     }
   },
+  data: () => ({
+    leaveTimeout: null
+  }),
+  computed: {
+    transitionName () {
+      const childrenComponent = this._vnode.componentOptions.children[0]
+
+      if (childrenComponent) {
+        const transition = childrenComponent.data.transition
+
+        if (transition) {
+          return transition.name
+        }
+      }
+
+      return 'v'
+    },
+    leaveClass () {
+      return this.transitionName + '-leave'
+    },
+    leaveActiveClass () {
+      return this.transitionName + '-leave-active'
+    },
+    leaveToClass () {
+      return this.transitionName + '-leave-to'
+    }
+  },
   watch: {
     mdTarget (newTarget, oldTarget) {
       this.changeParentEl(newTarget)
@@ -27,6 +54,46 @@ export default {
     }
   },
   methods: {
+    getTransitionDuration () {
+      const duration = window.getComputedStyle(this.$el).transitionDuration
+      const num = parseFloat(duration, 10)
+      let unit = duration.match(/m?s/)
+      let milliseconds = null
+
+      if (unit) {
+        unit = unit[0]
+      }
+
+      switch (unit) {
+        case 's':
+          milliseconds = num * 1000
+          break
+
+        case 'ms':
+          milliseconds = num
+          break
+
+        default:
+          milliseconds = 0
+          break
+      }
+
+      return milliseconds
+    },
+    killGhostElement () {
+      if (this.$el.parentNode) {
+        this.$el.parentNode.removeChild(this.$el)
+      }
+    },
+    destroyElement () {
+      window.requestAnimationFrame(() => {
+        this.$el.classList.remove(this.leaveClass)
+        this.$el.classList.remove(this.leaveActiveClass)
+        this.$el.classList.remove(this.leaveToClass)
+        this.$emit('md-destroy')
+        this.killGhostElement()
+      })
+    },
     changeParentEl (newTarget) {
       newTarget.appendChild(this.$el)
     }
@@ -34,9 +101,17 @@ export default {
   mounted () {
     this.changeParentEl(this.mdTarget || document.body)
   },
-  beforeDestroy () {
-    if (this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
+  async beforeDestroy () {
+    if (this.$el.classList) {
+      this.$el.classList.add(this.leaveClass)
+      this.$el.classList.add(this.leaveActiveClass)
+      await this.$nextTick()
+      this.$el.classList.add(this.leaveToClass)
+
+      window.clearTimeout(this.leaveTimeout)
+      this.leaveTimeout = window.setTimeout(this.destroyElement, this.getTransitionDuration())
+    } else {
+      this.killGhostElement()
     }
   },
   render (createElement) {

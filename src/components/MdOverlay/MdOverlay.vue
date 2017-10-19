@@ -1,7 +1,7 @@
 <template>
   <md-direct-portal :md-target="targetEl">
     <transition name="md-overlay">
-      <div class="md-overlay" ref="test" :class="overlayClasses" v-on="$listeners" v-if="mdVisible"></div>
+      <div class="md-overlay" :class="overlayClasses" v-on="$listeners" v-if="mdVisible"></div>
     </transition>
   </md-direct-portal>
 </template>
@@ -15,8 +15,8 @@
       MdDirectPortal
     },
     props: {
-      mdAttachToParent: Boolean,
       mdVisible: Boolean,
+      mdAttachToParent: Boolean,
       mdFixed: Boolean
     },
     data: () => ({
