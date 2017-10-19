@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 export default {
   name: 'MdDirectPortal',
+  abstract: true,
   props: {
     mdAttachToParent: Boolean,
     mdTarget: {
