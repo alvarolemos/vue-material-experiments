@@ -1,17 +1,19 @@
 <template>
   <md-menu
     class="md-select"
+    :class="{ 'md-disabled': disabled }"
     :md-close-on-select="false"
     :md-active.sync="showSelect"
     :md-offset-x="offset.x"
     :md-offset-y="offset.y"
     @md-opened="onOpen"
     @md-closed="onClosed">
-    <md-input
-      class="md-select-value"
+    <input
+      class="md-input md-select-value"
       v-model="MdSelect.label"
       readonly
-      :disabled="disabled"
+      v-bind="attributes"
+      v-on="$listeners"
       @focus.prevent="onFocus"
       @click="openSelect"
       @keydown.down="openSelect"
@@ -25,7 +27,7 @@
       </md-menu-content>
     </keep-alive>
 
-    <md-input class="md-input-fake" v-model="content" readonly />
+    <md-input class="md-input-fake" v-model="content" :disabled="disabled" readonly />
     <select readonly v-model="content" :required="required"></select>
   </md-menu>
 </template>
@@ -86,11 +88,10 @@
       return { MdSelect }
     },
     watch: {
-      value () {
-        if (this.multiple) {
-          this.setMultipleContentByValue()
-        } else {
-          this.setContentByValue()
+      value: {
+        immediate: true,
+        handler () {
+          this.setFieldContent()
         }
       },
       multiple: {
@@ -154,7 +155,9 @@
         this.$refs.icon.$el.removeAttribute('tabindex')
       },
       openSelect () {
-        this.showSelect = true
+        if (!this.disabled) {
+          this.showSelect = true
+        }
       },
       toggleArrayValue (array, value) {
         if (array.includes(value)) {
@@ -200,11 +203,18 @@
         })
 
         this.setContent(content.join(', '))
+      },
+      setFieldContent () {
+        if (this.multiple) {
+          this.setMultipleContentByValue()
+        } else {
+          this.setContentByValue()
+        }
       }
     },
     mounted () {
-      this.setContentByValue()
       this.showSelect = false
+      this.setFieldContent()
     }
   }
 </script>
@@ -216,14 +226,16 @@
     display: flex;
     flex: 1;
 
-    .md-input {
-      flex: 1;
+    &:not(.md-disabled) {
+      .md-input,
+      .md-icon {
+        cursor: pointer;
+        outline: none;
+      }
     }
 
-    .md-input,
-    .md-icon {
-      cursor: pointer;
-      outline: none;
+    .md-input {
+      flex: 1;
     }
 
     select,

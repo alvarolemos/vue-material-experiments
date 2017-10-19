@@ -2,7 +2,7 @@
 <example src="./examples/DenseSelect.vue" />
 <example src="./examples/OptgroupDisabled.vue" />
 <example src="./examples/MultipleSelect.vue" />
-<example src="./examples/Example.vue" />
+<example src="./examples/DisabledSelect.vue" />
 
 <template>
   <page-container centered :title="$t('pages.select.title')">
@@ -17,12 +17,7 @@
       <code-example title="Dense" :component="examples['dense-select']" />
       <code-example title="Groups and disabled options" :component="examples['optgroup-disabled']" />
       <code-example title="Multiple" :component="examples['multiple-select']" />
-    </div>
-
-    <div class="page-container-section">
-      <h2>Select</h2>
-
-      <code-example title="Example" :component="examples['example']" />
+      <code-example title="Disabled" :component="examples['disabled-select']" />
 
       <api-item title="API - md-select">
         <p>This component do not have any extra option.</p>

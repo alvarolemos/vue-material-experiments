@@ -89,9 +89,6 @@
       if (this.isMultiple && this.selectValue && this.selectValue.length) {
         this.isChecked = this.selectValue.includes(this.value)
       }
-    },
-    beforeDestroy () {
-      this.$delete(this.MdSelect.items, this.key)
     }
   }
 </script>
