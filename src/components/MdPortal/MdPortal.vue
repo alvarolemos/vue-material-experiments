@@ -92,13 +92,6 @@
 
         return milliseconds
       },
-      prepareSlotRender ($slots) {
-        const slotNames = Object.keys($slots)
-
-        slotNames.forEach(slot => {
-          $slots[slot]._rendered = false
-        })
-      },
       changeParentEl () {
         this.targetEl = this.mdTargetEl || document.body
         this.$options._parentElm = this.targetEl

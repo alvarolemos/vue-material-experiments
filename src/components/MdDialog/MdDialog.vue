@@ -1,25 +1,29 @@
 <template>
-  <md-portal class="md-dialog" :class="dialogClasses" md-transition-name="md-dialog" :md-if="mdActive">
-    <md-focus-trap>
-      <div class="md-dialog-container" :class="[$mdActiveTheme]" @keydown.esc="onEsc">
-        <slot />
-      </div>
-    </md-focus-trap>
+  <md-direct-portal>
+    <transition name="md-dialog">
+      <div class="md-dialog" :class="dialogClasses" v-on="$listeners" v-if="mdActive">
+        <md-focus-trap>
+          <div class="md-dialog-container" :class="[$mdActiveTheme]" @keydown.esc="onEsc">
+            <slot />
+          </div>
+        </md-focus-trap>
 
-    <md-overlay :class="mdBackdropClass" md-fixed :md-visible="mdActive" @click="onClick" v-if="mdBackdrop" />
-  </md-portal>
+        <md-overlay :class="mdBackdropClass" md-fixed :md-visible="mdActive" @click="onClick" v-if="mdBackdrop" />
+      </div>
+    </transition>
+  </md-direct-portal>
 </template>
 
 <script>
   import MdComponent from 'core/MdComponent'
-  import MdPortal from 'components/MdPortal/MdPortal'
+  import MdDirectPortal from 'components/MdPortal/MdDirectPortal'
   import MdOverlay from 'components/MdOverlay/MdOverlay'
   import MdFocusTrap from 'components/MdFocusTrap/MdFocusTrap'
 
   export default new MdComponent({
     name: 'MdDialog',
     components: {
-      MdPortal,
+      MdDirectPortal,
       MdOverlay,
       MdFocusTrap
     },
@@ -137,7 +141,7 @@
       > .md-dialog-content,
       > .md-dialog-actions {
         opacity: 0;
-        transform: scale(.95) translate3D(0, 15%, 0);
+        transform: scale(.95) translate3D(0, 10%, 0);
       }
     }
   }

@@ -1,14 +1,18 @@
 <template>
-  <md-portal class="md-overlay" :class="{ 'md-fixed' : mdFixed}" :md-target-el="targetEl" v-on="$listeners" md-transition-name="md-overlay" :md-if="mdVisible" v-if="!mdAttachToParent || targetEl"></md-portal>
+  <md-direct-portal :md-target="targetEl">
+    <transition name="md-overlay">
+      <div class="md-overlay" ref="test" :class="overlayClasses" v-on="$listeners" v-if="mdVisible"></div>
+    </transition>
+  </md-direct-portal>
 </template>
 
 <script>
-  import MdPortal from 'components/MdPortal/MdPortal'
+  import MdDirectPortal from 'components/MdPortal/MdDirectPortal'
 
   export default {
     name: 'MdOverlay',
     components: {
-      MdPortal
+      MdDirectPortal
     },
     props: {
       mdAttachToParent: Boolean,
@@ -18,9 +22,19 @@
     data: () => ({
       targetEl: null
     }),
+    computed: {
+      isVisible () {
+        return (!this.mdAttachToParent || this.targetEl) && this.mdVisible
+      },
+      overlayClasses () {
+        return {
+          'md-fixed': this.mdFixed
+        }
+      }
+    },
     mounted () {
       if (this.mdAttachToParent) {
-        this.targetEl = this.$el.parentNode.parentNode
+        this.targetEl = this.$el.parentNode
       }
     }
   }

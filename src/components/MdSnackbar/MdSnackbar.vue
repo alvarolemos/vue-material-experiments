@@ -1,21 +1,25 @@
 <template>
-  <md-portal class="md-snackbar" :class="[snackbarClasses, $mdActiveTheme]"  md-transition-name="md-snackbar" :md-if="mdActive">
-    <div class="md-snackbar-content">
-      <slot />
-    </div>
-  </md-portal>
+  <md-direct-portal>
+    <transition name="md-snackbar">
+      <div class="md-snackbar" :class="[snackbarClasses, $mdActiveTheme]" v-if="mdActive">
+        <div class="md-snackbar-content">
+          <slot />
+        </div>
+      </div>
+    </transition>
+  </md-direct-portal>
 </template>
 
 <script>
   import MdComponent from 'core/MdComponent'
   import MdPropValidator from 'core/utils/MdPropValidator'
-  import MdPortal from 'components/MdPortal/MdPortal'
+  import MdDirectPortal from 'components/MdPortal/MdDirectPortal'
   import { createSnackbar, destroySnackbar } from './MdSnackbarQueue'
 
   export default new MdComponent({
     name: 'MdSnackbar',
     components: {
-      MdPortal
+      MdDirectPortal
     },
     props: {
       mdActive: Boolean,
