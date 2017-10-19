@@ -29,6 +29,12 @@
       isChecked: false
     }),
     computed: {
+      selectValue () {
+        return this.MdSelect.modelValue
+      },
+      isMultiple () {
+        return this.MdSelect.multiple
+      },
       isDisabled () {
         return this.MdOptgroup.disabled || this.disabled
       },
@@ -55,16 +61,14 @@
       },
       setSingleSelection () {
         this.MdSelect.setValue(this.value)
-        this.MdSelect.setContent(this.$el.textContent)
       },
       setMultipleSelection () {
         this.isChecked = !this.isChecked
         this.MdSelect.setMultipleValue(this.value)
-        this.MdSelect.setMultipleContent(this.$el.textContent)
       },
       setSelection () {
         if (!this.disabled) {
-          if (this.MdSelect.multiple) {
+          if (this.isMultiple) {
             this.setMultipleSelection()
           } else {
             this.setSingleSelection()
@@ -72,7 +76,7 @@
         }
       },
       setItem () {
-        this.$set(this.MdSelect.items, this.key, this.$el.textContent)
+        this.$set(this.MdSelect.items, this.key, this.$el.textContent.trim())
       }
     },
     updated () {
@@ -81,6 +85,13 @@
     mounted () {
       this.setItem()
       this.setIsSelected()
+
+      if (this.isMultiple && this.selectValue && this.selectValue.length) {
+        this.isChecked = this.selectValue.includes(this.value)
+      }
+    },
+    beforeDestroy () {
+      this.$delete(this.MdSelect.items, this.key)
     }
   }
 </script>

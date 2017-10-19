@@ -12,6 +12,11 @@
         <md-option value="scarface">Scarface</md-option>
       </md-select>
     </md-field>
+
+    <div>
+      <strong>Selected values:</strong>
+      {{ movies }}
+    </div>
   </div>
 </template>
 
@@ -19,7 +24,7 @@
   export default {
     name: 'Example',
     data: () => ({
-      movies: []
+      movies: ['godfather', 'godfather-ii', 'godfather-iii']
     })
   }
 </script>
@@ -27,5 +32,9 @@
 <style lang="scss" scoped>
   .md-field {
     max-width: 300px;
+  }
+
+  .movie + .movie {
+    margin-left: 8px;
   }
 </style>

@@ -19,9 +19,11 @@
       @keydown.space="openSelect"  />
     <md-drop-down-icon ref="icon" @blur.native="removeHighlight" @click.native="openSelect" />
 
-    <md-menu-content class="md-select-menu" :md-list-class="mdDense && 'md-dense'" :style="menuStyles" :id="uniqueId">
-      <slot />
-    </md-menu-content>
+    <keep-alive>
+      <md-menu-content class="md-select-menu" :md-list-class="mdDense && 'md-dense'" :style="menuStyles" :id="uniqueId">
+        <slot />
+      </md-menu-content>
+    </keep-alive>
 
     <md-input class="md-input-fake" v-model="content" readonly />
     <select readonly v-model="content" :required="required"></select>
@@ -68,7 +70,8 @@
       MdSelect: {
         items: {},
         label: null,
-        multiple: false
+        multiple: false,
+        modelValue: null
       }
     }),
     provide () {
@@ -78,12 +81,17 @@
       MdSelect.setContent = this.setContent
       MdSelect.setMultipleValue = this.setMultipleValue
       MdSelect.setMultipleContent = this.setMultipleContent
+      MdSelect.modelValue = this.content
 
       return { MdSelect }
     },
     watch: {
       value () {
-        this.setContentByValue()
+        if (this.multiple) {
+          this.setMultipleContentByValue()
+        } else {
+          this.setContentByValue()
+        }
       },
       multiple: {
         immediate: true,
@@ -148,27 +156,50 @@
       openSelect () {
         this.showSelect = true
       },
+      toggleArrayValue (array, value) {
+        if (array.includes(value)) {
+          const index = array.indexOf(value)
+
+          array.splice(index, 1)
+        } else {
+          array.push(value)
+        }
+      },
       setValue (newValue) {
         this.content = newValue
         this.setFieldValue()
-      },
-      setMultipleValue (newValue) {
-
+        this.showSelect = false
       },
       setContent (newLabel) {
-        this.MdSelect.label = newLabel.trim()
-      },
-      setMultipleContent (newLabel) {
-
+        this.MdSelect.label = newLabel
       },
       setContentByValue () {
         const textContent = this.MdSelect.items[this.value]
 
         if (textContent) {
-          this.setContent(this.MdSelect.items[this.value])
+          this.setContent(textContent)
         } else {
           this.setContent('')
         }
+      },
+      setMultipleValue (value) {
+        const newValue = value
+
+        this.toggleArrayValue(this.content, newValue)
+        this.setFieldValue()
+      },
+      setMultipleContentByValue () {
+        let content = []
+
+        this.value.forEach(item => {
+          const textContent = this.MdSelect.items[item]
+
+          if (textContent) {
+            content.push(textContent)
+          }
+        })
+
+        this.setContent(content.join(', '))
       }
     },
     mounted () {
