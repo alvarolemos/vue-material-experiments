@@ -120,8 +120,10 @@ export default {
     }
   },
   render (createElement) {
-    const slot = this.$slots.default[0]
+    const defaultSlot = this.$slots.default
 
-    return slot && slot
+    if (defaultSlot) {
+      return defaultSlot[0] && defaultSlot[0]
+    }
   }
 }

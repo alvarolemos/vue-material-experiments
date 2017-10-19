@@ -3,11 +3,9 @@ import MdOverlay from './MdOverlay.vue'
 
 test('should render the overlay', async () => {
   const template = '<md-overlay md-active></md-overlay>'
-  const wrapper = await mountTemplate(MdOverlay, template, {
-    attachToDocument: true
-  })
+  const wrapper = await mountTemplate(MdOverlay, template)
 
-  expect(Boolean(wrapper.find('.md-overlay'))).toBe(true)
+  expect(wrapper.hasClass('md-overlay')).toBe(true)
 })
 
 test('should render the overlay inside body tag', async () => {
