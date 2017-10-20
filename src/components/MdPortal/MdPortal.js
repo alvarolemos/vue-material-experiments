@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 export default {
-  name: 'MdDirectPortal',
+  name: 'MdPortal',
   abstract: true,
   props: {
     mdAttachToParent: Boolean,
@@ -100,6 +100,8 @@ export default {
     }
   },
   mounted () {
+    this.$emit('md-initial-parent', this.$el.parentNode)
+
     if (this.mdAttachToParent && this.$el.parentNode.parentNode) {
       this.changeParentEl(this.$el.parentNode.parentNode)
     } else {
@@ -122,8 +124,8 @@ export default {
   render (createElement) {
     const defaultSlot = this.$slots.default
 
-    if (defaultSlot) {
-      return defaultSlot[0] && defaultSlot[0]
+    if (defaultSlot && defaultSlot[0]) {
+      return defaultSlot[0]
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <md-direct-portal>
+  <md-portal>
     <transition name="md-dialog">
       <div class="md-dialog" :class="dialogClasses" v-on="$listeners" v-if="mdActive">
         <md-focus-trap>
@@ -11,19 +11,19 @@
         <md-overlay :class="mdBackdropClass" md-fixed :md-active="mdActive" @click="onClick" v-if="mdBackdrop" />
       </div>
     </transition>
-  </md-direct-portal>
+  </md-portal>
 </template>
 
 <script>
   import MdComponent from 'core/MdComponent'
-  import MdDirectPortal from 'components/MdPortal/MdDirectPortal'
+  import MdPortal from 'components/MdPortal/MdPortal'
   import MdOverlay from 'components/MdOverlay/MdOverlay'
   import MdFocusTrap from 'components/MdFocusTrap/MdFocusTrap'
 
   export default new MdComponent({
     name: 'MdDialog',
     components: {
-      MdDirectPortal,
+      MdPortal,
       MdOverlay,
       MdFocusTrap
     },

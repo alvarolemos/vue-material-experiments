@@ -68,7 +68,7 @@
         x: defaultOffset.x,
         y: 0
       },
-      showSelect: true,
+      showSelect: false,
       MdSelect: {
         items: {},
         label: null,
@@ -122,7 +122,7 @@
 
           if (selected) {
             this.scrollToSelectedOption(selected, menu)
-            this.offset.y = defaultOffset.y - selected.offsetTop + menu.scrollTop + 7
+            this.offset.y = defaultOffset.y - selected.offsetTop + menu.scrollTop + 8
             this.menuStyles = {
               'transform-origin': `0 ${Math.abs(this.offset.y)}px`
             }
@@ -213,7 +213,6 @@
       }
     },
     mounted () {
-      this.showSelect = false
       this.setFieldContent()
     }
   }
@@ -254,12 +253,8 @@
   .md-menu-content.md-select-menu {
     width: 100%;
 
-    &.md-menu-content-bottom-start {
+    &.md-menu-content-enter {
       transform: translate3d(0, -8px, 0) scaleY(.3);
-    }
-
-    &.md-active {
-      transform: translate3d(0, 0, 0);
     }
 
     .md-dense .md-ripple.md-list-item-content {

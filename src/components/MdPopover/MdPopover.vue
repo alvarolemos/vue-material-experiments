@@ -5,15 +5,12 @@
 
   export default {
     name: 'MdPopover',
+    abstract: true,
     components: {
       MdPortal
     },
     props: {
-      mdIf: Boolean,
-      mdTag: {
-        type: String,
-        default: 'div'
-      },
+      mdActive: Boolean,
       mdSettings: {
         type: Object,
         default: () => ({})
@@ -23,9 +20,7 @@
       popperInstance: null,
       originalParentEl: null,
       shouldRender: false,
-      shouldActivate: false,
-      isHidden: true,
-      didMount: false
+      shouldActivate: false
     }),
     computed: {
       popoverClasses () {
@@ -37,7 +32,7 @@
       }
     },
     watch: {
-      mdIf: {
+      mdActive: {
         immediate: true,
         handler (shouldRender) {
           this.shouldRender = shouldRender
@@ -93,10 +88,9 @@
       },
       async createPopper () {
         const options = deepmerge(this.getPopperOptions(), this.mdSettings)
-        const el = this.$children[0].$el
 
-        if (el.constructor.name.toLowerCase() !== 'comment') {
-          this.popperInstance = new Popper(this.originalParentEl, el, options)
+        if (this.$el.constructor.name.toLowerCase() !== 'comment') {
+          this.popperInstance = new Popper(this.originalParentEl, this.$el, options)
         }
       }
     },
@@ -104,20 +98,16 @@
       this.killPopper()
     },
     render (createElement) {
-      return createElement('md-portal', {
-        staticClass: 'md-popover',
-        class: this.popoverClasses,
+      return createElement(MdPortal, {
         props: {
-          ...this.$attrs,
-          mdTag: this.mdTag,
-          mdIf: this.shouldRender
+          ...this.$attrs
         },
         on: {
           ...this.$listeners,
-          'md-original-parent': this.setOriginalParent,
+          'md-initial-parent': this.setOriginalParent,
           'md-destroy': this.killPopper
         }
-      }, [this.$slots.default])
+      }, this.$slots.default)
     }
   }
 </script>

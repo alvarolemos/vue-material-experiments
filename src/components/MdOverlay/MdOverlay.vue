@@ -1,18 +1,18 @@
 <template>
-  <md-direct-portal :md-attach-to-parent="mdAttachToParent">
+  <md-portal :md-attach-to-parent="mdAttachToParent">
     <transition name="md-overlay">
       <div class="md-overlay" :class="overlayClasses" v-on="$listeners" v-if="mdActive"></div>
     </transition>
-  </md-direct-portal>
+  </md-portal>
 </template>
 
 <script>
-  import MdDirectPortal from 'components/MdPortal/MdDirectPortal'
+  import MdPortal from 'components/MdPortal/MdPortal'
 
   export default {
     name: 'MdOverlay',
     components: {
-      MdDirectPortal
+      MdPortal
     },
     props: {
       mdActive: Boolean,

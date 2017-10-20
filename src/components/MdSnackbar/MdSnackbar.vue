@@ -1,5 +1,5 @@
 <template>
-  <md-direct-portal>
+  <md-portal>
     <transition name="md-snackbar">
       <div class="md-snackbar" :class="[snackbarClasses, $mdActiveTheme]" v-if="mdActive">
         <div class="md-snackbar-content">
@@ -7,19 +7,19 @@
         </div>
       </div>
     </transition>
-  </md-direct-portal>
+  </md-portal>
 </template>
 
 <script>
   import MdComponent from 'core/MdComponent'
   import MdPropValidator from 'core/utils/MdPropValidator'
-  import MdDirectPortal from 'components/MdPortal/MdDirectPortal'
+  import MdPortal from 'components/MdPortal/MdPortal'
   import { createSnackbar, destroySnackbar } from './MdSnackbarQueue'
 
   export default new MdComponent({
     name: 'MdSnackbar',
     components: {
-      MdDirectPortal
+      MdPortal
     },
     props: {
       mdActive: Boolean,

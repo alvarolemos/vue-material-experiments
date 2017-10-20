@@ -2,7 +2,7 @@
   <md-menu-item :class="optionClasses" :disabled="isDisabled" @click="setSelection">
     <md-checkbox class="md-primary" v-model="isChecked" v-if="MdSelect.multiple" />
 
-    <span class="md-list-item-text">
+    <span class="md-list-item-text" ref="text">
       <slot />
     </span>
   </md-menu-item>
@@ -56,8 +56,15 @@
       }
     },
     methods: {
+      getTextContent () {
+        if (this.$el) {
+          return this.$el.textContent.trim()
+        }
+
+        return this.$slots.default[0].text.trim()
+      },
       setIsSelected () {
-        this.isSelected = this.inputLabel === this.$el.textContent.trim()
+        this.isSelected = this.inputLabel === this.getTextContent()
       },
       setSingleSelection () {
         this.MdSelect.setValue(this.value)
@@ -76,13 +83,13 @@
         }
       },
       setItem () {
-        this.$set(this.MdSelect.items, this.key, this.$el.textContent.trim())
+        this.$set(this.MdSelect.items, this.key, this.getTextContent())
       }
     },
     updated () {
       this.setItem()
     },
-    mounted () {
+    created () {
       this.setItem()
       this.setIsSelected()
 
