@@ -1,7 +1,7 @@
 <template>
   <md-popover :md-settings="popperSettings" :md-active="shouldRender">
     <md-focus-trap v-if="shouldRender">
-      <transition name="md-menu-content">
+      <transition name="md-menu-content" :css="didMount">
         <div class="md-menu-content md-scrollbar" :class="[menuClasses, $mdActiveTheme]">
           <md-list :class="mdListClass" v-bind="$attrs" @keydown.esc="onEsc">
             <slot />
