@@ -32,7 +32,7 @@
     },
     inject: ['MdMenu'],
     data: () => ({
-      targetEl: null
+      didMount: false
     }),
     computed: {
       shouldRender () {
@@ -43,17 +43,18 @@
 
         return {
           [prefix + this.MdMenu.direction]: true,
-          [prefix + this.MdMenu.size]: true
+          [prefix + this.MdMenu.size]: true,
+          'md-shallow': !this.didMount
         }
       },
       popperSettings () {
         const { direction, alignTrigger } = this.MdMenu
 
-        if (this.targetEl) {
+        if (this.$el) {
           let { offsetX, offsetY }= this.getOffsets()
 
           if (!this.hasCustomOffsets()) {
-            offsetY = -this.targetEl.offsetHeight - 11
+            offsetY = -this.$el.offsetHeight - 11
 
             if (direction.includes('start')) {
               offsetX = -8
@@ -115,7 +116,7 @@
     async mounted () {
       await this.$nextTick()
 
-      this.targetEl = this.$el
+      this.didMount = true
     },
     beforeDestroy () {
       if (this.MdMenu.eventObserver) {
@@ -145,6 +146,18 @@
                 opacity .3s $md-transition-stand-timing;
     will-change: opacity, transform, top, left !important;
 
+    &.md-shallow {
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      position: fixed !important;
+      clip: rect(0 0 0 0);
+      border: 0;
+      transition: none !important;
+    }
+
     &.md-menu-content-enter-active {
       opacity: 1;
       transform: translate3d(0, 0, 0);
@@ -158,42 +171,42 @@
     &.md-menu-content-enter {
       &.md-menu-content-top-start {
         transform-origin: bottom left;
-        transform: translate3d(0, 8px, 0) scaleY(.5);
+        transform: translate3d(0, 8px, 0) scaleY(.95);
       }
 
       &.md-menu-content-top-end {
         transform-origin: bottom right;
-        transform: translate3d(0, 8px, 0) scaleY(.5);
+        transform: translate3d(0, 8px, 0) scaleY(.95);
       }
 
       &.md-menu-content-right-start {
         transform-origin: left top;
-        transform: translate3d(0, -8px, 0) scaleY(.5);
+        transform: translate3d(0, -8px, 0) scaleY(.95);
       }
 
       &.md-menu-content-right-end {
         transform-origin: left bottom;
-        transform: translate3d(0, 8px, 0) scaleY(.5);
+        transform: translate3d(0, 8px, 0) scaleY(.95);
       }
 
       &.md-menu-content-bottom-start {
         transform-origin: top left;
-        transform: translate3d(0, -8px, 0) scaleY(.5);
+        transform: translate3d(0, -8px, 0) scaleY(.95);
       }
 
       &.md-menu-content-bottom-end {
         transform-origin: top right;
-        transform: translate3d(0, -8px, 0) scaleY(.5);
+        transform: translate3d(0, -8px, 0) scaleY(.95);
       }
 
       &.md-menu-content-left-start {
         transform-origin: right top;
-        transform: translate3d(0, -8px, 0) scaleY(.5);
+        transform: translate3d(0, -8px, 0) scaleY(.95);
       }
 
       &.md-menu-content-left-end {
         transform-origin: right bottom;
-        transform: translate3d(0, 8px, 0) scaleY(.5);
+        transform: translate3d(0, 8px, 0) scaleY(.95);
       }
 
       .md-list {
@@ -214,7 +227,7 @@
     }
 
     .md-list {
-      transition: opacity .3s $md-transition-drop-timing;
+      transition: opacity .3s $md-transition-stand-timing;
       will-change: opacity;
       font-family: 'Roboto', sans-serif;
       text-transform: none;

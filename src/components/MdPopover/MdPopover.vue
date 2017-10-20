@@ -44,11 +44,8 @@
           }
         }
       },
-      mdSettings (settings) {
-        if (this.popperInstance) {
-          this.killPopper()
-          this.createPopper()
-        }
+      mdSettings () {
+        this.resetPopper()
       }
     },
     methods: {
@@ -92,10 +89,19 @@
         if (this.$el.constructor.name.toLowerCase() !== 'comment') {
           this.popperInstance = new Popper(this.originalParentEl, this.$el, options)
         }
+      },
+      resetPopper () {
+        if (this.popperInstance) {
+          this.killPopper()
+          this.createPopper()
+        }
       }
     },
     beforeDestroy () {
       this.killPopper()
+    },
+    mounted () {
+      this.resetPopper()
     },
     render (createElement) {
       return createElement(MdPortal, {

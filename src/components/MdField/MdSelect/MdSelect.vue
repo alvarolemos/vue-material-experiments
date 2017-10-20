@@ -22,7 +22,7 @@
     <md-drop-down-icon ref="icon" @blur.native="removeHighlight" @click.native="openSelect" />
 
     <keep-alive>
-      <md-menu-content class="md-select-menu" :md-list-class="mdDense && 'md-dense'" :style="menuStyles" :id="uniqueId">
+      <md-menu-content ref="menu" class="md-select-menu" :md-list-class="mdDense && 'md-dense'" :style="menuStyles" :id="uniqueId">
         <slot />
       </md-menu-content>
     </keep-alive>
@@ -68,7 +68,7 @@
         x: defaultOffset.x,
         y: 0
       },
-      showSelect: false,
+      showSelect: true,
       MdSelect: {
         items: {},
         label: null,
@@ -213,6 +213,14 @@
       }
     },
     mounted () {
+      /* const options = this.$refs.menu.$slots.default.filter(({ tag }) => tag)
+
+      console.log(this.$refs.menu.$slots.default)
+
+      options.forEach(({ componentOptions }) => {
+        this.MdSelect.items[componentOptions.propsData.value] = componentOptions.children[0].text
+      }) */
+      this.showSelect = false
       this.setFieldContent()
     }
   }
@@ -255,6 +263,10 @@
 
     &.md-menu-content-enter {
       transform: translate3d(0, -8px, 0) scaleY(.3);
+    }
+
+    .md-list {
+      transition: opacity .3s $md-transition-drop-timing;
     }
 
     .md-dense .md-ripple.md-list-item-content {

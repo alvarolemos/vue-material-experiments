@@ -19,7 +19,8 @@ export default {
     }
   },
   data: () => ({
-    leaveTimeout: null
+    leaveTimeout: null,
+    originalParentEl: null
   }),
   computed: {
     transitionName () {
@@ -100,7 +101,10 @@ export default {
     }
   },
   mounted () {
-    this.$emit('md-initial-parent', this.$el.parentNode)
+    if (!this.originalParentEl) {
+      this.originalParentEl = this.$el.parentNode
+      this.$emit('md-initial-parent', this.$el.parentNode)
+    }
 
     if (this.mdAttachToParent && this.$el.parentNode.parentNode) {
       this.changeParentEl(this.$el.parentNode.parentNode)
