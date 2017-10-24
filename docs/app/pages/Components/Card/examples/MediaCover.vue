@@ -28,7 +28,7 @@
 
         <md-card-area>
           <md-card-header>
-            <span class="md-title">Title goes here</span>
+            <span class="md-title">Gradient background</span>
             <span class="md-subhead">16/9 image</span>
           </md-card-header>
 
@@ -48,7 +48,7 @@
 
         <md-card-area>
           <md-card-header>
-            <span class="md-title">Title goes here</span>
+            <span class="md-title">Solid background</span>
             <span class="md-subhead">4/3 image</span>
           </md-card-header>
         </md-card-area>
@@ -63,7 +63,7 @@
 
         <md-card-area>
           <md-card-header>
-            <span class="md-title">Title goes here</span>
+            <span class="md-title">Solid background</span>
             <span class="md-subhead">1/1 image</span>
           </md-card-header>
 
